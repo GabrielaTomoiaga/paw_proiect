@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coș de cumpărături</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<h1>Coșul tău de cumpărături</h1>
+
+<div th:if="${successMessage}" style="color: green;">
+    <p th:text="${successMessage}"></p>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>Imagine</th>
+        <th>Nume produs</th>
+        <th>Preț</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="produs : ${cartItems}">
+        <td><img th:src="@{${produs.image}}" alt="Imagine produs" width="100"></td>
+        <td th:text="${produs.name}"></td>
+        <td th:text="${produs.price}"></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

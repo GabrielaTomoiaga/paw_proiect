@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bijuterii - {{categorie}}</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<h1>Bijuterii - <span th:text="${categorie}"></span></h1>
+
+<div class="produse-container">
+    <div th:each="produs : ${produse}" class="produs-card">
+        <img th:src="@{${produs.image}}" alt="Imagine produs" class="produs-imagine"/>
+        <div class="produs-detalii">
+            <h2 th:text="${produs.name}">Nume produs</h2>
+            <p th:text="${produs.price}">Preț</p>
+            <button class="btn-add-to-cart" data-product-id="[[${produs.id}]]" onclick="addToCart([[${produs.id}]])">Adaugă în coș</button>
+        </div>
+    </div>
+</div>
+
+<div id="cart-message" style="display:none; color: green; margin-top: 20px;">
+    Produsul a fost adăugat în coș!
+</div>
+
+<div th:if="${error != null}" class="error-message">
+    <p th:text="${error}">Eroare</p>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function addToCart(productId) {
+        $.ajax({
+            url: "/add-to-cart/" + productId,
+            type: "POST",
+            success: function(response) {
+                $("#cart-message").fadeIn().delay(2000).fadeOut();
+            },
+            error: function() {
+                alert("A apărut o problemă la adăugarea produsului în coș.");
+            }
+        });
+    }
+</script>
+</body>
+</html>
